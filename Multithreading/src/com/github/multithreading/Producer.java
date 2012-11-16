@@ -21,8 +21,6 @@ public class Producer implements Runnable {
 		Product newProduct = new Product(productId);
 		try {
 			store.addProduct(newProduct);
-			System.out.println("Product with id " + newProduct.getId()
-					+ " successfully added to store.");
 		} catch (InterruptedException e) {
 			System.err
 					.println("InterruptedException occured while adding Product "

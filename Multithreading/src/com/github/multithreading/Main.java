@@ -5,11 +5,14 @@ import com.github.multithreading.impl.Store;
 
 public class Main {
 
-	private static final int STORE_CAPACITY = 100;
+	private static final int STORE_CAPACITY = 2;
 
 	public static void main(String[] args) {
 
 		IStore store = new Store(STORE_CAPACITY);
+
+		System.out.println("Store with capacity " + store.getStoreCapacity()
+				+ " successfully initialized.");
 
 		createAndStartFirstProducer(store);
 

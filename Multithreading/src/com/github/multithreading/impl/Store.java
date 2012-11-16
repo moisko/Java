@@ -18,10 +18,15 @@ public class Store implements IStore {
 
 	public void addProduct(Product product) throws InterruptedException {
 		products.put(product);
+		System.out.println("Product " + product.getId()
+				+ " successfully added to store.");
 	}
 
 	public Product takeProduct() throws InterruptedException {
-		return products.take();
+		Product product = products.take();
+		System.out.println("Product " + product.getId()
+				+ " successfully retrieved from the store.");
+		return product;
 	}
 
 	public int getStoreCapacity() {

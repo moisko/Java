@@ -1,7 +1,6 @@
 package com.github.multithreading;
 
 import com.github.multithreading.api.IStore;
-import com.github.multithreading.impl.Product;
 
 public class Consumer implements Runnable {
 
@@ -17,10 +16,7 @@ public class Consumer implements Runnable {
 	@Override
 	public void run() {
 		try {
-			Product product = store.takeProduct();
-
-			System.out.println("Product with id " + product.getId()
-					+ " successfully retrieved from store.");
+			store.takeProduct();
 		} catch (InterruptedException e) {
 			System.err
 					.println("InterruptedException occured in consumer thread "
