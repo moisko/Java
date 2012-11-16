@@ -6,9 +6,9 @@ public class Product implements IProduct {
 
 	private final String name;
 
-	private final String id;
+	private final long id;
 
-	public Product(String name, String id) {
+	public Product(String name, long id) {
 		this.name = name;
 		this.id = id;
 	}
@@ -17,7 +17,7 @@ public class Product implements IProduct {
 		return name;
 	}
 
-	public String getId() {
+	public long getId() {
 		return id;
 	}
 }

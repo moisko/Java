@@ -4,5 +4,5 @@ public interface IProduct {
 
 	public String getName();
 
-	public String getId();
+	public long getId();
 }
