@@ -1,4 +1,4 @@
-package com.github.multithreading;
+package com.github.multithreading.impl;
 
 import com.github.multithreading.api.IProduct;
 

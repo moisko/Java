@@ -1,6 +1,6 @@
 package com.github.multithreading.api;
 
-import com.github.multithreading.Product;
+import com.github.multithreading.impl.Product;
 
 public interface IStore {
 
