@@ -8,6 +8,7 @@ public class Main {
 	private static final int STORE_CAPACITY = 100;
 
 	public static void main(String[] args) {
+
 		IStore store = new Store(STORE_CAPACITY);
 
 		createAndStartFirstPCPair(store);
