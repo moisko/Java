@@ -1,11 +1,28 @@
 package com.github.multithreading;
 
-import com.github.multithreading.api.IProduct;
+import com.github.multithreading.api.IStore;
 import com.github.multithreading.impl.Product;
+import com.github.multithreading.utils.ProductIdGenerator;
 
-public class Producer {
+public class Producer implements Runnable {
 
-	public IProduct produceToStore(String name, long id) {
-		return new Product(name, id);
+	private final IStore store;
+
+	public Producer(IStore store) {
+		this.store = store;
 	}
+
+	@Override
+	public void run() {
+		long productId = ProductIdGenerator.generateProductId();
+		Product newProduct = new Product(productId);
+		try {
+			store.addProduct(newProduct);
+		} catch (InterruptedException e) {
+			System.err
+					.println("InterruptedException occured in Producer thread "
+							+ e.toString());
+		}
+	}
+
 }
