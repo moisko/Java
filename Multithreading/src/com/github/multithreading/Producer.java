@@ -28,6 +28,7 @@ public class Producer implements Runnable {
 							+ " in thread "
 							+ name
 							+ " to store " + e.toString());
+			Thread.currentThread().interrupt();
 		}
 	}
 

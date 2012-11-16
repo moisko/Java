@@ -21,6 +21,7 @@ public class Consumer implements Runnable {
 			System.err
 					.println("InterruptedException occured in consumer thread "
 							+ name + e.toString());
+			Thread.currentThread().interrupt();
 		}
 	}
 }
