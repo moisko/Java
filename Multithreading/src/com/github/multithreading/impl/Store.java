@@ -20,7 +20,7 @@ public class Store implements IStore {
 		products.put(product);
 	}
 
-	public Product getProduct() throws InterruptedException {
+	public Product takeProduct() throws InterruptedException {
 		return products.take();
 	}
 
