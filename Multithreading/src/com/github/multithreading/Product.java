@@ -1,6 +1,8 @@
 package com.github.multithreading;
 
-public class Product {
+import com.github.multithreading.api.IProduct;
+
+public class Product implements IProduct {
 
 	private final String name;
 
