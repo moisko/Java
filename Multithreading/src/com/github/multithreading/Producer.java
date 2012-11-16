@@ -8,8 +8,11 @@ public class Producer implements Runnable {
 
 	private final IStore store;
 
-	public Producer(IStore store) {
+	private final String name;
+
+	public Producer(IStore store, String name) {
 		this.store = store;
+		this.name = name;
 	}
 
 	@Override
@@ -18,10 +21,15 @@ public class Producer implements Runnable {
 		Product newProduct = new Product(productId);
 		try {
 			store.addProduct(newProduct);
+			System.out.println("Product with id " + newProduct.getId()
+					+ " successfully added to store.");
 		} catch (InterruptedException e) {
 			System.err
-					.println("InterruptedException occured in Producer thread "
-							+ e.toString());
+					.println("InterruptedException occured while adding Product "
+							+ newProduct.getId()
+							+ " in thread "
+							+ name
+							+ " to store " + e.toString());
 		}
 	}
 

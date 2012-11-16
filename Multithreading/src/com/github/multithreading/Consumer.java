@@ -7,8 +7,11 @@ public class Consumer implements Runnable {
 
 	private final IStore store;
 
-	public Consumer(IStore store) {
+	private final String name;
+
+	public Consumer(IStore store, String name) {
 		this.store = store;
+		this.name = name;
 	}
 
 	@Override
@@ -17,11 +20,11 @@ public class Consumer implements Runnable {
 			Product product = store.takeProduct();
 
 			System.out.println("Product with id " + product.getId()
-					+ " retrieved from store.");
+					+ " successfully retrieved from store.");
 		} catch (InterruptedException e) {
 			System.err
-					.println("InterruptedException occured in consumer thread"
-							+ e.toString());
+					.println("InterruptedException occured in consumer thread "
+							+ name + e.toString());
 		}
 	}
 }
