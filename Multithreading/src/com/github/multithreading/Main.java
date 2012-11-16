@@ -16,9 +16,9 @@ public class Main {
 
 		createAndStartFirstConsumer(store);
 
-		createAndStartSecondConsumer(store);
+		// createAndStartSecondConsumer(store);
 
-		createAndStartThirdConsumer(store);
+		// createAndStartThirdConsumer(store);
 
 		createAndStartFirstProducer(store);
 
