@@ -27,7 +27,7 @@ public class Producer implements Runnable {
 							+ newProduct.getId()
 							+ " in thread "
 							+ name
-							+ " to store " + e.toString());
+							+ " to store." + e.toString());
 
 			Thread.currentThread().interrupt();
 		}
