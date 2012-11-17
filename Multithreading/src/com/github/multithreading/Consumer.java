@@ -12,7 +12,6 @@ public class Consumer implements Runnable {
 
 	@Override
 	public void run() {
-		System.out.println("Product " + product.getId()
-				+ " has been taken from store.");
+		System.out.println("Product " + product.getId() + " consumed.");
 	}
 }
