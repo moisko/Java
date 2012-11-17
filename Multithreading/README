@@ -1,5 +1,5 @@
 Instructions on how to build with maven 3
-========================================
+=========================================
 1. cd to Multithreading dir
 2. mvn clean install
 3. go to target/
