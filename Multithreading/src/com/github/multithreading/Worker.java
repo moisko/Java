@@ -17,6 +17,7 @@ public class Worker implements Runnable {
 	@Override
 	public void run() {
 		try {
+			System.out.println("Wroker thread has bee successfully created.");
 			while (true) {
 				Product product = store.takeProductFromStore();
 				if (product == null) {
