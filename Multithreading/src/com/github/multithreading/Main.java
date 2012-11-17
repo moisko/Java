@@ -16,10 +16,6 @@ public class Main {
 
 		createAndStartFirstConsumer(store);
 
-		// createAndStartSecondConsumer(store);
-
-		// createAndStartThirdConsumer(store);
-
 		createAndStartFirstProducer(store);
 
 		createAndStartSecondProducer(store);
@@ -45,21 +41,9 @@ public class Main {
 		pt2.start();
 	}
 
-	private static void createAndStartSecondConsumer(IStore store) {
-		Consumer c2 = new Consumer(store, "c2");
-		Thread ct2 = new Thread(c2);
-		ct2.start();
-	}
-
 	private static void createAndStartThirdProducer(IStore store) {
 		Producer p3 = new Producer(store, "p3");
 		Thread pt3 = new Thread(p3);
 		pt3.start();
-	}
-
-	private static void createAndStartThirdConsumer(IStore store) {
-		Consumer c3 = new Consumer(store, "c3");
-		Thread ct3 = new Thread(c3);
-		ct3.start();
 	}
 }

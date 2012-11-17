@@ -19,19 +19,14 @@ public class Consumer implements Runnable {
 		try {
 			while (true) {
 				Product product = store.takeProduct();
-				if (product == null) {
-					System.out
-							.println("Time elapsed for adding new elements in the queue.");
-					return;
-				} else {
-					System.out.println("Consumer " + name
-							+ " retrieved product " + product.getId());
-				}
+				System.out.println("Consumer " + name + " retrieved product "
+						+ product.getId() + " from store.");
 			}
 		} catch (InterruptedException e) {
 			System.err
 					.println("InterruptedException occured in consumer thread "
 							+ name + e.toString());
+
 			Thread.currentThread().interrupt();
 		}
 	}
