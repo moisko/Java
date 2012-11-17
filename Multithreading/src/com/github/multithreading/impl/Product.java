@@ -13,4 +13,9 @@ public class Product implements IProduct {
 	public long getId() {
 		return id;
 	}
+
+	@Override
+	public String toString() {
+		return "Product id [" + id + "]";
+	}
 }

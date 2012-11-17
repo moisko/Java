@@ -2,6 +2,7 @@ package com.github.multithreading.impl;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import com.github.multithreading.api.IStore;
 
@@ -16,13 +17,13 @@ public class Store implements IStore {
 		this.products = new ArrayBlockingQueue<Product>(capacity);
 	}
 
-	public void addProduct(Product product) throws InterruptedException {
+	public void addProductToStore(Product product) throws InterruptedException {
 		products.put(product);
 	}
 
-	public Product takeProduct() throws InterruptedException {
-		return products.take();
-		// return products.poll(3, TimeUnit.SECONDS);
+	public Product takeProductFromStore() throws InterruptedException {
+		Product product = products.poll(2, TimeUnit.SECONDS);
+		return product;
 	}
 
 	public int getStoreCapacity() {

@@ -18,9 +18,14 @@ public class Consumer implements Runnable {
 	public void run() {
 		try {
 			while (true) {
-				Product product = store.takeProduct();
-				System.out.println("Consumer " + name + " retrieved product "
-						+ product.getId() + " from store.");
+				Product product = store.takeProductFromStore();
+				if (product != null) {
+					System.out.println("Consumer " + name
+							+ " retrieved product " + product.getId()
+							+ " from store.");
+				} else {
+					break;
+				}
 			}
 		} catch (InterruptedException e) {
 			System.err

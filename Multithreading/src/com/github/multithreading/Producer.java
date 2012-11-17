@@ -20,7 +20,7 @@ public class Producer implements Runnable {
 		long productId = ProductIdGenerator.generateProductId();
 		Product newProduct = new Product(productId);
 		try {
-			store.addProduct(newProduct);
+			store.addProductToStore(newProduct);
 			System.out.println("Producer " + name + " added product "
 					+ newProduct.getId() + " to store.");
 		} catch (InterruptedException e) {
