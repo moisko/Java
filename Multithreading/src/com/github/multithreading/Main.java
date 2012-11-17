@@ -14,19 +14,20 @@ public class Main {
 		System.out.println("Store with capacity " + store.getStoreCapacity()
 				+ " successfully initialized.");
 
+		createAndStartWorker(store);
+
 		createAndStartFirstProducer(store);
 
 		createAndStartSecondProducer(store);
 
 		createAndStartThirdProducer(store);
 
-		createAndStartFirstConsumer(store);
 	}
 
-	private static void createAndStartFirstConsumer(IStore store) {
-		Consumer c1 = new Consumer(store, "c1");
-		Thread ct1 = new Thread(c1);
-		ct1.start();
+	private static void createAndStartWorker(IStore store) {
+		Worker worker = new Worker(store, "worker");
+		Thread wt1 = new Thread(worker);
+		wt1.start();
 	}
 
 	private static void createAndStartFirstProducer(IStore store) {
@@ -46,4 +47,5 @@ public class Main {
 		Thread pt3 = new Thread(p3);
 		pt3.start();
 	}
+
 }

@@ -8,6 +8,8 @@ import com.github.multithreading.api.IStore;
 
 public class Store implements IStore {
 
+	private static final int TIME_TO_WAIT = 2;
+
 	private final int capacity;
 
 	private final BlockingQueue<Product> products;
@@ -22,8 +24,7 @@ public class Store implements IStore {
 	}
 
 	public Product takeProductFromStore() throws InterruptedException {
-		Product product = products.poll(2, TimeUnit.SECONDS);
-		return product;
+		return products.poll(TIME_TO_WAIT, TimeUnit.SECONDS);
 	}
 
 	public int getStoreCapacity() {
