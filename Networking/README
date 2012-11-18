@@ -7,7 +7,7 @@ Protocol used for communication:
 Client sends two separate messages to the server of the form:
 1. "<client " + name + "> Hello Server"
 2. "<client " + name + "> By Server"
-Server response with:
+Server responds with:
 1. "<server> Hello!\n"
 2. "<server> Bye!\n"
 
