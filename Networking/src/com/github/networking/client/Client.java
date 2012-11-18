@@ -23,11 +23,15 @@ public class Client implements Runnable {
 
 	@Override
 	public void run() {
+		System.out.println("Client " + getClientName() + " started.");
+
 		Socket connection = null;
 		BufferedReader br = null;
 		PrintWriter writer = null;
 		try {
 			connection = createSocketConnection(HOST, PORT);
+			System.out.println("Client " + getClientName()
+					+ " connected to sever on host " + HOST + ":" + PORT);
 			sendMessage(connection, "<client " + name + "> Hello Server");
 			readMessage(connection);
 		} catch (IOException e) {
@@ -57,6 +61,7 @@ public class Client implements Runnable {
 		String line;
 		while ((line = br.readLine()) != null) {
 			if (line.equals("<server> EOF")) {
+				// Signal for closing the connection has been received
 				break;
 			}
 			System.out.println(line);
