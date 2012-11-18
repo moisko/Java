@@ -29,7 +29,7 @@ public class Client implements Runnable {
 		BufferedReader br = null;
 		PrintWriter writer = null;
 		try {
-			connection = createSocketConnection(HOST, PORT);
+			connection = createClientConnection(HOST, PORT);
 			System.out.println("Client " + getClientName()
 					+ " connected to sever on host " + HOST + ":" + PORT);
 			sendMessage(connection, "<client " + name + "> Hello Server");
@@ -68,7 +68,7 @@ public class Client implements Runnable {
 		}
 	}
 
-	private Socket createSocketConnection(String host, int port)
+	private Socket createClientConnection(String host, int port)
 			throws UnknownHostException, IOException {
 		Socket connection = new Socket(HOST, PORT);
 		return connection;
