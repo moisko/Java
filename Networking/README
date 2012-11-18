@@ -6,12 +6,10 @@ How to start the application
 Protocol used for communication:
 Client sends two separate messages to the server of the form:
 1. "<client " + name + "> Hello Server"
-2. "<client " + name + "> By Server"
 Server responds with:
-1. "<server> Hello!\n"
-2. "<server> Bye!\n"
+1. "<server> Hello Client\n"
 
-When a "<server> Bye!" message is encoutered on client side, the client closes the connection to the server.
+When a "<server> EOF" message is encoutered on client side, the client closes the connection to the server.
 
 How to build with maven 3
 =========================

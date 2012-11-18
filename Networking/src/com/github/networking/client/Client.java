@@ -31,7 +31,6 @@ public class Client implements Runnable {
 			writer = IOUtils.createPrintWriterFromClientConnection(connection);
 			// Begin the communication with the server
 			sendMessage(writer, "<client " + name + "> Hello Server");
-			sendMessage(writer, "<client " + name + "> By Server");
 			readMessage(br);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -54,7 +53,7 @@ public class Client implements Runnable {
 	private void readMessage(BufferedReader br) throws IOException {
 		String line;
 		while ((line = br.readLine()) != null) {
-			if (line.equals("<server> Bye!")) {
+			if (line.equals("<server> EOF")) {
 				break;
 			}
 			System.out.println(line);

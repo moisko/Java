@@ -13,6 +13,9 @@ import com.github.networking.utils.Safe;
 
 public class Server {
 
+	private static final String LINE_SEPARATOR = System
+			.getProperty("line.separator");
+
 	private static final int NTHREAD = 100;
 
 	private static final int SERVER_PORT = 4444;
@@ -34,7 +37,21 @@ public class Server {
 				Runnable task = new Runnable() {
 					public void run() {
 						try {
-							handleRequest(connection);
+							BufferedReader br = IOUtils
+									.createBufferedReaderFromClientConnection(connection);
+							PrintWriter writer = IOUtils
+									.createPrintWriterFromClientConnection(connection);
+							// Read from client
+							StringBuilder sb = new StringBuilder();
+							String firstLine = br.readLine();
+							sb.append(firstLine).append(LINE_SEPARATOR);
+							sb.append("<server> Hello Client").append(
+									LINE_SEPARATOR);
+							sb.append("<server> EOF");
+							// Write the response to the client
+							writer.println(sb.toString());
+							// Flush
+							writer.flush();
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -50,32 +67,4 @@ public class Server {
 		}
 	}// end of main
 
-	private static synchronized void handleRequest(Socket connection)
-			throws IOException {
-		BufferedReader br = IOUtils
-				.createBufferedReaderFromClientConnection(connection);
-		PrintWriter writer = IOUtils
-				.createPrintWriterFromClientConnection(connection);
-
-		// Read from client
-		StringBuilder sb = new StringBuilder();
-
-		String firstLine = readLineFromClient(br);
-		sb.append(firstLine + "\n");
-		sb.append("<server> Hello!\n");
-
-		String secondLine = readLineFromClient(br);
-		sb.append(secondLine + "\n");
-		sb.append("<server> Bye!\n");
-
-		// Write the response to the client
-		writer.println(sb.toString());
-		// Flush
-		writer.flush();
-	}
-
-	private static String readLineFromClient(BufferedReader br)
-			throws IOException {
-		return br.readLine();
-	}
 }
