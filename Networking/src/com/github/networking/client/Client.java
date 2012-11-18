@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import com.github.networking.utils.IOUtils;
 import com.github.networking.utils.Safe;
@@ -26,12 +27,9 @@ public class Client implements Runnable {
 		BufferedReader br = null;
 		PrintWriter writer = null;
 		try {
-			connection = new Socket(HOST, PORT);
-			br = IOUtils.createBufferedReaderFromClientConnection(connection);
-			writer = IOUtils.createPrintWriterFromClientConnection(connection);
-			// Begin the communication with the server
-			sendMessage(writer, "<client " + name + "> Hello Server");
-			readMessage(br);
+			connection = createSocketConnection(HOST, PORT);
+			sendMessage(connection, "<client " + name + "> Hello Server");
+			readMessage(connection);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -45,12 +43,17 @@ public class Client implements Runnable {
 		return name;
 	}
 
-	private void sendMessage(PrintWriter writer, String message) {
+	private void sendMessage(Socket connection, String message)
+			throws IOException {
+		PrintWriter writer = IOUtils
+				.createPrintWriterFromClientConnection(connection);
 		writer.println(message);
 		writer.flush();
 	}
 
-	private void readMessage(BufferedReader br) throws IOException {
+	private void readMessage(Socket connection) throws IOException {
+		BufferedReader br = IOUtils
+				.createBufferedReaderFromClientConnection(connection);
 		String line;
 		while ((line = br.readLine()) != null) {
 			if (line.equals("<server> EOF")) {
@@ -58,5 +61,11 @@ public class Client implements Runnable {
 			}
 			System.out.println(line);
 		}
+	}
+
+	private Socket createSocketConnection(String host, int port)
+			throws UnknownHostException, IOException {
+		Socket connection = new Socket(HOST, PORT);
+		return connection;
 	}
 }
