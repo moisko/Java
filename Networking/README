@@ -1,6 +1,6 @@
 How to start the application
 ============================
-1. The server part is supposed to be started as a Java Application
+1. Start com.github.networking.Server
 2. com.sap.github.networking.Main is used to simulate three clients which connect to the server on port 4444
 
 Protocol used for communication:
