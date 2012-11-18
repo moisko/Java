@@ -1,15 +1,16 @@
 How to start the application
 ============================
 1. The server part is supposed to be started as a Java Application
-2. Main is used to simulate three clients which connect to the server on port 4444
+2. com.sap.github.networking.Main is used to simulate three clients which connect to the server on port 4444
 
 Protocol used for communication:
 Client sends two separate messages to the server of the form:
 1. "<client " + name + "> Hello Server"
 Server responds with:
 1. "<server> Hello Client\n"
+2. "<server> EOF"
 
-When a "<server> EOF" message is encoutered on client side, the client closes the connection to the server.
+When "<server> EOF" closes the client connection to the server 
 
 How to build with maven 3
 =========================
