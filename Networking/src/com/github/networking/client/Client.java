@@ -11,14 +11,13 @@ import com.github.networking.utils.Safe;
 
 public class Client implements Runnable {
 
-	private static final String HOST = "localhost";
+	private final String host;
 
-	private static final int PORT = 4444;
+	private final int port;
 
-	private final String name;
-
-	public Client(String name) {
-		this.name = name;
+	public Client(String host, int port) {
+		this.host = host;
+		this.port = port;
 	}
 
 	@Override
@@ -27,10 +26,11 @@ public class Client implements Runnable {
 		BufferedReader br = null;
 		PrintWriter writer = null;
 		try {
-			connection = createClientConnection(HOST, PORT);
-			System.out.println("Client " + getClientName()
-					+ " connected to sever on host " + HOST + ":" + PORT);
-			sendMessage(connection, "<client " + name + "> Hello Server");
+			connection = createClientConnection(host, port);
+			System.out.println("Client " + Thread.currentThread().getName()
+					+ " connected to sever on host " + host + ":" + port);
+			sendMessage(connection, "<client "
+					+ Thread.currentThread().getName() + "> Hello Server");
 			readMessage(connection);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -39,10 +39,6 @@ public class Client implements Runnable {
 			Safe.close(br);
 			Safe.close(writer);
 		}
-	}
-
-	public String getClientName() {
-		return name;
 	}
 
 	private void sendMessage(Socket connection, String message)
@@ -68,7 +64,21 @@ public class Client implements Runnable {
 
 	private Socket createClientConnection(String host, int port)
 			throws UnknownHostException, IOException {
-		Socket connection = new Socket(HOST, PORT);
+		Socket connection = new Socket(host, port);
 		return connection;
+	}
+
+	public static void main(String[] args) {
+		Thread ct1 = new Thread(new Client("localhost", 4444));
+		ct1.setName("C1");
+		ct1.start();
+
+		Thread ct2 = new Thread(new Client("localhost", 4444));
+		ct2.setName("C2");
+		ct2.start();
+
+		Thread ct3 = new Thread(new Client("localhost", 4444));
+		ct3.setName("C3");
+		ct3.start();
 	}
 }
