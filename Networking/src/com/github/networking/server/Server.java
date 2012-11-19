@@ -47,7 +47,7 @@ public class Server {
 							sb.append(firstLine).append(LINE_SEPARATOR);
 							sb.append("<server> Hello Client").append(
 									LINE_SEPARATOR);
-							sb.append("<server> EOF");
+							sb.append("EOF");
 							// Write the response to the client
 							writer.println(sb.toString());
 							// Flush

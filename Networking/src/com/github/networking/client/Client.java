@@ -60,7 +60,7 @@ public class Client implements Runnable {
 				.createBufferedReaderFromClientConnection(connection);
 		String line;
 		while ((line = br.readLine()) != null) {
-			if (line.equals("<server> EOF")) {
+			if (line.equals("EOF")) {
 				// Signal for closing the connection has been received
 				break;
 			}
