@@ -66,7 +66,7 @@ public class Server implements Runnable {
 			String firstLine = br.readLine();
 			sb.append(firstLine).append(LINE_SEPARATOR);
 			sb.append("<server> Hello Client").append(LINE_SEPARATOR);
-			sb.append("EOF");
+			sb.append("SIGTERM");
 			// Write the response to the client
 			writer.println(sb.toString());
 			// Flush

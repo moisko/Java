@@ -54,8 +54,11 @@ public class Client implements Runnable {
 				.createBufferedReaderFromClientConnection(connection);
 		String line;
 		while ((line = br.readLine()) != null) {
-			if (line.equals("EOF")) {
-				// Signal for closing the connection has been received
+			if (line.equals("SIGTERM")) {
+				System.out
+						.println("Client "
+								+ Thread.currentThread().getName()
+								+ " received SIGTERM signal and will close the connection to the server.");
 				break;
 			}
 			System.out.println(line);

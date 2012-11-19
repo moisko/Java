@@ -1,14 +1,14 @@
 How to start the application
 ============================
-1. Start com.github.networking.Server
-2. com.sap.github.networking.Main is used to simulate three clients which connect to the server on port 4444
+1. Start com.github.networking.server.Server
+2. Start com.github.networking.client.Client
 
 Protocol used for communication:
 Client sends a message to the server:
 1. "<client " + name + "> Hello Server"
 Server responds with:
 1. "<server> Hello Client\n"
-2. "EOF"
+2. "SIGTERM"
 
 When server sends "EOF" signal, the client closes the connection.
 
