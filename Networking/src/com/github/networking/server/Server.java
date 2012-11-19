@@ -11,23 +11,27 @@ import java.util.concurrent.Executors;
 import com.github.networking.utils.IOUtils;
 import com.github.networking.utils.Safe;
 
-public class Server {
+public class Server implements Runnable {
 
 	private static final String LINE_SEPARATOR = System
 			.getProperty("line.separator");
 
 	private static final int NTHREAD = 100;
 
-	private static final int SERVER_PORT = 4444;
-
 	private static final Executor exec = Executors.newFixedThreadPool(NTHREAD);
 
-	public static void main(String[] args) throws IOException {
+	private final int port;
+
+	public Server(int port) {
+		this.port = port;
+	}
+
+	@Override
+	public void run() {
 		ServerSocket ss = null;
 		try {
-			ss = new ServerSocket(SERVER_PORT);
-			System.out
-					.println("Server is now listening on port " + SERVER_PORT);
+			ss = new ServerSocket(port);
+			System.out.println("Server is now listening on port " + port);
 			while (true) {
 				final Socket connection = ss.accept();
 				System.out.println("Server accepted connection from "
@@ -42,14 +46,16 @@ public class Server {
 				// Submit this task for execution
 				exec.execute(task);
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		} finally {
 			if (ss != null) {
 				Safe.close(ss);
 			}
 		}
-	}// end of main
+	}
 
-	private static void handleRequest(Socket connection) {
+	private void handleRequest(Socket connection) {
 		try {
 			BufferedReader br = IOUtils
 					.createBufferedReaderFromClientConnection(connection);
@@ -70,4 +76,8 @@ public class Server {
 		}
 	}
 
+	public static void main(String[] args) throws IOException {
+		Thread serverThread = new Thread(new Server(4444));
+		serverThread.start();
+	}
 }
