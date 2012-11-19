@@ -8,7 +8,7 @@ Client sends two separate messages to the server of the form:
 1. "<client " + name + "> Hello Server"
 Server responds with:
 1. "<server> Hello Client\n"
-2. "<server> EOF"
+2. "EOF"
 
 When "<server> EOF" closes the client connection to the server 
 
