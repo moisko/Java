@@ -18,6 +18,7 @@ public class Worker implements Runnable {
 	public void run() {
 		try {
 			System.out.println("Wroker thread has been successfully started.");
+			// while (!Thread.currentThread().isInterrupted()) {
 			while (true) {
 				Product product = store.takeProductFromStore();
 				if (product == null) {

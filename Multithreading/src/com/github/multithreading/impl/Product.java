@@ -6,8 +6,11 @@ public class Product implements IProduct {
 
 	private final long id;
 
-	public Product(long id) {
+	private final String name;
+
+	public Product(long id, String name) {
 		this.id = id;
+		this.name = name;
 	}
 
 	public long getId() {
@@ -15,7 +18,12 @@ public class Product implements IProduct {
 	}
 
 	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
 	public String toString() {
-		return "Product id [" + id + "]";
+		return "Product " + name + " id[" + id + "]";
 	}
 }

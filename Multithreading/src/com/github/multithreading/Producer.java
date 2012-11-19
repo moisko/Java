@@ -17,10 +17,11 @@ public class Producer implements Runnable {
 
 	@Override
 	public void run() {
-		long productId = ProductIdGenerator.generateProductId();
-		Product newProduct = new Product(productId);
+		// Safe publication of Product
+		Product newProduct = createNewProduct();
 		try {
 			store.addProductToStore(newProduct);
+			System.out.println(newProduct.toString() + " added to store.");
 		} catch (InterruptedException e) {
 			System.err
 					.println("InterruptedException occured while adding Product "
@@ -31,6 +32,14 @@ public class Producer implements Runnable {
 
 			Thread.currentThread().interrupt();
 		}
+	}
+
+	private synchronized Product createNewProduct() {
+		long productId = ProductIdGenerator.generateProductId();
+		String productName = "p" + productId;
+		Product newProduct = new Product(productId, productName);
+
+		return newProduct;
 	}
 
 }
