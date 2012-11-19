@@ -23,8 +23,6 @@ public class Client implements Runnable {
 
 	@Override
 	public void run() {
-		System.out.println("Client " + getClientName() + " started.");
-
 		Socket connection = null;
 		BufferedReader br = null;
 		PrintWriter writer = null;

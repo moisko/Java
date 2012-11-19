@@ -36,25 +36,7 @@ public class Server {
 				// Create a task
 				Runnable task = new Runnable() {
 					public void run() {
-						try {
-							BufferedReader br = IOUtils
-									.createBufferedReaderFromClientConnection(connection);
-							PrintWriter writer = IOUtils
-									.createPrintWriterFromClientConnection(connection);
-							// Read from client
-							StringBuilder sb = new StringBuilder();
-							String firstLine = br.readLine();
-							sb.append(firstLine).append(LINE_SEPARATOR);
-							sb.append("<server> Hello Client").append(
-									LINE_SEPARATOR);
-							sb.append("EOF");
-							// Write the response to the client
-							writer.println(sb.toString());
-							// Flush
-							writer.flush();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+						handleRequest(connection);
 					}
 				};
 				// Submit this task for execution
@@ -66,5 +48,26 @@ public class Server {
 			}
 		}
 	}// end of main
+
+	private static void handleRequest(Socket connection) {
+		try {
+			BufferedReader br = IOUtils
+					.createBufferedReaderFromClientConnection(connection);
+			PrintWriter writer = IOUtils
+					.createPrintWriterFromClientConnection(connection);
+			// Read from client
+			StringBuilder sb = new StringBuilder();
+			String firstLine = br.readLine();
+			sb.append(firstLine).append(LINE_SEPARATOR);
+			sb.append("<server> Hello Client").append(LINE_SEPARATOR);
+			sb.append("EOF");
+			// Write the response to the client
+			writer.println(sb.toString());
+			// Flush
+			writer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 }
