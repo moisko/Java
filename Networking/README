@@ -10,7 +10,7 @@ Server responds with:
 1. "<server> Hello Client\n"
 2. "EOF"
 
-When "<server> EOF" closes the client connection to the server 
+When server sends "EOF" signal, the client closes the connection.
 
 How to build with maven 3
 =========================
