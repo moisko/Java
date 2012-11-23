@@ -96,7 +96,6 @@ public class Server implements Runnable {
 		PrintWriter writer = IOUtils
 				.createPrintWriterFromClientConnection(socket);
 		writer.println(message);
-		// writer.println();
 		writer.flush();
 	}
 
