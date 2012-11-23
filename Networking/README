@@ -2,3 +2,13 @@ How to build with maven 3
 =========================
 1. cd to Networking dir
 2. mvn clean install
+
+How to start the Server
+=======================
+1. cd target
+2. java -cp com.github.networking-1.0.0.jar com.github.networking.server.Server
+
+How to start the Client
+=======================
+1. cd target
+2. java -cp com.github.networking-1.0.0.jar com.github.networking.client.Client C1

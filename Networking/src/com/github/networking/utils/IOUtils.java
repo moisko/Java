@@ -21,7 +21,7 @@ public class IOUtils {
 	public static PrintWriter createPrintWriterFromClientConnection(
 			Socket connection) throws IOException {
 		OutputStream os = connection.getOutputStream();
-		PrintWriter writer = new PrintWriter(os);
+		PrintWriter writer = new PrintWriter(os, true);
 		return writer;
 	}
 }

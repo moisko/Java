@@ -20,6 +20,7 @@ public class Server implements Runnable {
 
 	private static final Executor exec = Executors.newFixedThreadPool(NTHREAD);
 
+	// Default size is 16
 	private static final ConcurrentMap<Integer, Socket> CONNECTION_POOL = new ConcurrentHashMap<Integer, Socket>();
 
 	private final int port;
@@ -46,13 +47,15 @@ public class Server implements Runnable {
 				Runnable task = new Runnable() {
 					public void run() {
 						try {
-							handleRequest(connection);
+							while (!connection.isClosed()) {
+								handleRequest(connection);
+							}
 						} catch (IOException e) {
 							e.printStackTrace();
 
-							CONNECTION_POOL.remove(connection);
-
 							Safe.close(connection);
+						} finally {
+							CONNECTION_POOL.remove(connection.getPort());
 						}
 					}
 				};
@@ -101,7 +104,8 @@ public class Server implements Runnable {
 		PrintWriter writer = IOUtils
 				.createPrintWriterFromClientConnection(socket);
 		writer.println(message);
-		writer.flush();
+		writer.println();
+		// writer.flush();
 	}
 
 	public static void main(String[] args) throws IOException {

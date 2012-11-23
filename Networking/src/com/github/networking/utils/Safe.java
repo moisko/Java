@@ -9,7 +9,7 @@ import java.net.Socket;
 public class Safe {
 
 	public static void close(ServerSocket connection) {
-		if (connection != null) {
+		if (connection != null && !connection.isClosed()) {
 			try {
 				connection.close();
 			} catch (IOException e) {
@@ -19,7 +19,7 @@ public class Safe {
 	}
 
 	public static void close(Socket connection) {
-		if (connection != null) {
+		if (connection != null && !connection.isClosed()) {
 			try {
 				connection.close();
 			} catch (IOException e) {

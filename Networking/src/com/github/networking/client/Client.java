@@ -2,6 +2,7 @@ package com.github.networking.client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -24,37 +25,61 @@ public class Client implements Runnable {
 	public void run() {
 		Socket connection = null;
 		BufferedReader br = null;
+		BufferedReader consoleReader = null;
 		PrintWriter writer = null;
 		try {
 			connection = createClientConnection(host, port);
+
 			System.out.println("Client " + Thread.currentThread().getName()
 					+ " connected to sever on host " + host + ":" + port);
-			sendMessage(connection, "Hello from "
-					+ Thread.currentThread().getName());
-			readMessage(connection);
+
+			consoleReader = new BufferedReader(new InputStreamReader(System.in));
+
+			while (!connection.isClosed()) {
+				sendMessage(connection, consoleReader);
+
+				br = IOUtils
+						.createBufferedReaderFromClientConnection(connection);
+
+				readResponse(connection, br);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 			Safe.close(connection);
 			Safe.close(br);
+			Safe.close(consoleReader);
 			Safe.close(writer);
 		}
 	}
 
-	private void sendMessage(Socket connection, String message)
+	private void sendMessage(Socket connection, BufferedReader consoleReader)
 			throws IOException {
-		PrintWriter writer = IOUtils
-				.createPrintWriterFromClientConnection(connection);
-		writer.println(message);
-		writer.println();// End of client message
-		writer.flush();
+		StringBuilder sb = new StringBuilder();
+		String line;
+		while ((line = consoleReader.readLine()) != null) {
+			if (line.isEmpty()) {
+				String message = sb.toString();
+				// Send message
+				PrintWriter writer = IOUtils
+						.createPrintWriterFromClientConnection(connection);
+				writer.println(message);
+				writer.println();
+				// writer.flush();
+
+				break;
+			}
+			sb.append(line);
+		}
 	}
 
-	private void readMessage(Socket connection) throws IOException {
-		BufferedReader br = IOUtils
-				.createBufferedReaderFromClientConnection(connection);
+	private void readResponse(Socket connection, BufferedReader br)
+			throws IOException {
 		String line;
 		while ((line = br.readLine()) != null) {
+			if (line.isEmpty()) {
+				break;
+			}
 			System.out.println(Thread.currentThread().getName() + ": " + line);
 		}
 	}
@@ -66,16 +91,8 @@ public class Client implements Runnable {
 	}
 
 	public static void main(String[] args) {
-		Thread ct1 = new Thread(new Client("localhost", 4444));
-		ct1.setName("C1");
-		ct1.start();
-
-		Thread ct2 = new Thread(new Client("localhost", 4444));
-		ct2.setName("C2");
-		ct2.start();
-
-		Thread ct3 = new Thread(new Client("localhost", 4444));
-		ct3.setName("C3");
-		ct3.start();
+		Thread clientThread = new Thread(new Client("localhost", 4444));
+		clientThread.setName(args[0]);
+		clientThread.start();
 	}
 }
