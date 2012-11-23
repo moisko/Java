@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executor;
@@ -61,6 +62,9 @@ public class Server implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
+			// Remove all the mappings from this pool
+			CONNECTION_POOL.clear();
+			// Close ServerSocket
 			if (ss != null) {
 				Safe.close(ss);
 			}
@@ -69,7 +73,8 @@ public class Server implements Runnable {
 
 	private void handleRequest(Socket connection) throws IOException {
 		String message = readMessageFromClient(connection);
-		for (Integer port : CONNECTION_POOL.keySet()) {
+		for (Entry<Integer, Socket> entry : CONNECTION_POOL.entrySet()) {
+			int port = entry.getKey();
 			if (port != connection.getPort()) {
 				Socket socket = CONNECTION_POOL.get(port);
 				sendMessageToClient(socket, message);

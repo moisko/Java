@@ -29,8 +29,8 @@ public class Client implements Runnable {
 			connection = createClientConnection(host, port);
 			System.out.println("Client " + Thread.currentThread().getName()
 					+ " connected to sever on host " + host + ":" + port);
-			sendMessage(connection, "<client "
-					+ Thread.currentThread().getName() + "> Hello Server");
+			sendMessage(connection, "Hello from "
+					+ Thread.currentThread().getName());
 			readMessage(connection);
 		} catch (IOException e) {
 			e.printStackTrace();
