@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -13,12 +15,11 @@ import com.github.networking.utils.Safe;
 
 public class Server implements Runnable {
 
-	private static final String LINE_SEPARATOR = System
-			.getProperty("line.separator");
-
 	private static final int NTHREAD = 100;
 
 	private static final Executor exec = Executors.newFixedThreadPool(NTHREAD);
+
+	private static final ConcurrentMap<Integer, Socket> CONNECTION_POOL = new ConcurrentHashMap<Integer, Socket>();
 
 	private final int port;
 
@@ -34,13 +35,24 @@ public class Server implements Runnable {
 			System.out.println("Server is now listening on port " + port);
 			while (true) {
 				final Socket connection = ss.accept();
+
+				CONNECTION_POOL.put(connection.getPort(), connection);
+
 				System.out.println("Server accepted connection from "
 						+ connection.getInetAddress().getHostAddress() + ":"
 						+ connection.getPort());
 				// Create a task
 				Runnable task = new Runnable() {
 					public void run() {
-						handleRequest(connection);
+						try {
+							handleRequest(connection);
+						} catch (IOException e) {
+							e.printStackTrace();
+
+							CONNECTION_POOL.remove(connection);
+
+							Safe.close(connection);
+						}
 					}
 				};
 				// Submit this task for execution
@@ -55,25 +67,37 @@ public class Server implements Runnable {
 		}
 	}
 
-	private void handleRequest(Socket connection) {
-		try {
-			BufferedReader br = IOUtils
-					.createBufferedReaderFromClientConnection(connection);
-			PrintWriter writer = IOUtils
-					.createPrintWriterFromClientConnection(connection);
-			// Read from client
-			StringBuilder sb = new StringBuilder();
-			String firstLine = br.readLine();
-			sb.append(firstLine).append(LINE_SEPARATOR);
-			sb.append("<server> Hello Client").append(LINE_SEPARATOR);
-			sb.append("SIGTERM");
-			// Write the response to the client
-			writer.println(sb.toString());
-			// Flush
-			writer.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
+	private void handleRequest(Socket connection) throws IOException {
+		String message = readMessageFromClient(connection);
+		for (Integer port : CONNECTION_POOL.keySet()) {
+			if (port != connection.getPort()) {
+				Socket socket = CONNECTION_POOL.get(port);
+				sendMessageToClient(socket, message);
+			}
 		}
+	}
+
+	private String readMessageFromClient(Socket socket) throws IOException {
+		BufferedReader br = IOUtils
+				.createBufferedReaderFromClientConnection(socket);
+		StringBuilder sb = new StringBuilder();
+		String line;
+		while ((line = br.readLine()) != null) {
+			if (line.isEmpty()) {
+				break;
+			}
+			sb.append(line);
+		}
+		return sb.toString();
+	}
+
+	private void sendMessageToClient(Socket socket, String message)
+			throws IOException {
+		PrintWriter writer = IOUtils
+				.createPrintWriterFromClientConnection(socket);
+		writer.println(message);
+		// writer.println();
+		writer.flush();
 	}
 
 	public static void main(String[] args) throws IOException {

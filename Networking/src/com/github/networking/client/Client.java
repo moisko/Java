@@ -46,6 +46,7 @@ public class Client implements Runnable {
 		PrintWriter writer = IOUtils
 				.createPrintWriterFromClientConnection(connection);
 		writer.println(message);
+		writer.println();// End of client message
 		writer.flush();
 	}
 
@@ -54,14 +55,7 @@ public class Client implements Runnable {
 				.createBufferedReaderFromClientConnection(connection);
 		String line;
 		while ((line = br.readLine()) != null) {
-			if (line.equals("SIGTERM")) {
-				System.out
-						.println("Client "
-								+ Thread.currentThread().getName()
-								+ " received SIGTERM signal and will close the connection to the server.");
-				break;
-			}
-			System.out.println(line);
+			System.out.println(Thread.currentThread().getName() + ": " + line);
 		}
 	}
 
