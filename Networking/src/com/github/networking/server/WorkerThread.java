@@ -17,25 +17,32 @@ public class WorkerThread extends Thread {
 	}
 
 	public void run() {
+		BufferedReader br = null;
+		PrintWriter writer = null;
 		try {
+			br = IOUtils.createBufferedReaderFromClientConnection(connection);
+			writer = IOUtils.createPrintWriterFromClientConnection(connection);
 			while (!connection.isClosed()) {
-				handleRequest(connection);
+				handleRequest(br, writer);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.err
+					.println("Error occured while processing the client request: "
+							+ e.toString());
 		} finally {
 			Safe.close(connection);
+			Safe.close(br);
+			Safe.close(writer);
 		}
 	}
 
-	private void handleRequest(Socket connection) throws IOException {
-		String message = readMessageFromClient(connection);
-		sendMessageToClient(connection, message);
+	private void handleRequest(BufferedReader br, PrintWriter writer)
+			throws IOException {
+		String message = readMessageFromClient(br);
+		sendMessageToClient(writer, message);
 	}
 
-	private String readMessageFromClient(Socket socket) throws IOException {
-		BufferedReader br = IOUtils
-				.createBufferedReaderFromClientConnection(socket);
+	private String readMessageFromClient(BufferedReader br) throws IOException {
 		StringBuilder sb = new StringBuilder();
 		String line;
 		while ((line = br.readLine()) != null) {
@@ -47,10 +54,8 @@ public class WorkerThread extends Thread {
 		return sb.toString();
 	}
 
-	private void sendMessageToClient(Socket socket, String message)
+	private void sendMessageToClient(PrintWriter writer, String message)
 			throws IOException {
-		PrintWriter writer = IOUtils
-				.createPrintWriterFromClientConnection(socket);
 		writer.println(message);
 		writer.println();
 	}
