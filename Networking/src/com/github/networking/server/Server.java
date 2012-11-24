@@ -28,14 +28,18 @@ public class Server implements Runnable {
 			System.out.println("Server is now listening on port " + port);
 			while (true) {
 				final Socket connection = ss.accept();
+				try {
+					System.out.println("Server accepted connection from "
+							+ connection.getInetAddress().getHostAddress()
+							+ ":" + connection.getPort());
 
-				System.out.println("Server accepted connection from "
-						+ connection.getInetAddress().getHostAddress() + ":"
-						+ connection.getPort());
+					Thread workerThread = new WorkerThread(connection);
 
-				Thread workerThread = new WorkerThread(connection);
+					exec.execute(workerThread);
+				} finally {
+					Safe.close(connection);
+				}
 
-				exec.execute(workerThread);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
