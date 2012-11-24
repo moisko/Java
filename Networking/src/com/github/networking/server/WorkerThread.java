@@ -23,7 +23,7 @@ public class WorkerThread extends Thread {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-
+		} finally {
 			Safe.close(connection);
 		}
 	}
