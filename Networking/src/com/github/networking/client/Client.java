@@ -65,8 +65,6 @@ public class Client implements Runnable {
 						.createPrintWriterFromClientConnection(connection);
 				writer.println(message);
 				writer.println();
-				// writer.flush();
-
 				break;
 			}
 			sb.append(line);

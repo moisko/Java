@@ -31,7 +31,9 @@ public class Server implements Runnable {
 				System.out.println("Server accepted connection from "
 						+ connection.getInetAddress().getHostAddress() + ":"
 						+ connection.getPort());
+
 				Thread workerThread = new WorkerThread(connection);
+
 				exec.execute(workerThread);
 			}
 		} catch (IOException e) {
