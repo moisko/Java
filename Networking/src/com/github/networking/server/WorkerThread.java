@@ -23,7 +23,10 @@ public class WorkerThread extends Thread {
 			br = IOUtils.createBufferedReaderFromClientConnection(connection);
 			writer = IOUtils.createPrintWriterFromClientConnection(connection);
 			while (!connection.isClosed()) {
-				handleRequest(br, writer);
+				// Read what the client has sent to the server
+				String message = readMessageFromClient(br);
+				// Send back this message
+				sendMessageToClient(writer, message);
 			}
 		} catch (IOException e) {
 			System.err
@@ -34,12 +37,6 @@ public class WorkerThread extends Thread {
 			Safe.close(br);
 			Safe.close(writer);
 		}
-	}
-
-	private void handleRequest(BufferedReader br, PrintWriter writer)
-			throws IOException {
-		String message = readMessageFromClient(br);
-		sendMessageToClient(writer, message);
 	}
 
 	private String readMessageFromClient(BufferedReader br) throws IOException {

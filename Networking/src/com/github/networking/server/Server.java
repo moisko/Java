@@ -12,7 +12,8 @@ public class Server implements Runnable {
 
 	private static final int NTHREAD = 100;
 
-	private static final Executor exec = Executors.newFixedThreadPool(NTHREAD);
+	private static final Executor EXECUTOR = Executors
+			.newFixedThreadPool(NTHREAD);
 
 	private final int port;
 
@@ -34,7 +35,7 @@ public class Server implements Runnable {
 
 				Thread workerThread = new WorkerThread(connection);
 
-				exec.execute(workerThread);
+				EXECUTOR.execute(workerThread);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

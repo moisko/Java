@@ -90,6 +90,7 @@ public class Client implements Runnable {
 
 	public static void main(String[] args) {
 		Thread clientThread = new Thread(new Client("localhost", 4444));
+		// agrs[0] - client name
 		clientThread.setName(args[0]);
 		clientThread.start();
 	}
