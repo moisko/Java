@@ -33,7 +33,7 @@ public class Server implements Runnable {
 						+ connection.getInetAddress().getHostAddress() + ":"
 						+ connection.getPort());
 
-				Thread workerThread = new WorkerThread(connection);
+				Thread workerThread = new ClientSession(connection);
 				// Submit from execution
 				EXECUTOR.execute(workerThread);
 			}
