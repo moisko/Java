@@ -10,5 +10,6 @@
 	<artifactId>com.github.networking</artifactId>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<outputDirectory>target/classes</outputDirectory>
 	</build>
 </project>

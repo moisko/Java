@@ -21,7 +21,6 @@ public class Main {
 		createAndStartSecondProducer(store);
 
 		createAndStartThirdProducer(store);
-
 	}
 
 	private static void createAndStartWorker(IStore store) {
