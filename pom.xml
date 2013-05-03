@@ -9,5 +9,6 @@
 	<modules>
 		<module>Multithreading</module>
 		<module>Networking</module>
+		<module>Algorithms</module>
 	</modules>
 </project>
