@@ -8,6 +8,7 @@ public class InsertionSort {
 		if (a == null) {
 			return null;
 		}
+		// begin with the second element
 		for (int i = 1; i < a.length; i++) {
 			// key <=> current element
 			int key = a[i];
