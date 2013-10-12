@@ -19,9 +19,9 @@ public class GreatestCommonDivisor {
 	private static void checkArgs(int m, int n) {
 		String message = null;
 		if (m < 0) {
-			message = m + " must be positive integer";
+			message = m + " must be from the set of positive integers";
 		} else if (n < 0) {
-			message = n + " must be positive integer";
+			message = n + " must be from the set of positive integers";
 		}
 		if (message != null) {
 			throw new IllegalArgumentException(message);
