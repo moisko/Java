@@ -11,6 +11,7 @@ public class GreatestCommonDivisor {
 			// Set n <- r
 			return gcd(n, r);
 		}
+		// m <-> n
 		return gcd(n, m);
 	}
 
