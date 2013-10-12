@@ -29,4 +29,5 @@ public class GreatestCommonDivisor {
 			throw new IllegalArgumentException(message);
 		}
 	}
+
 }
