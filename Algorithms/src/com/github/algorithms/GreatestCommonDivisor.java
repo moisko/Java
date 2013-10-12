@@ -22,6 +22,8 @@ public class GreatestCommonDivisor {
 			message = m + " must be from the set of positive integers";
 		} else if (n < 0) {
 			message = n + " must be from the set of positive integers";
+		} else if (n == 0) {
+			message = "Could not divide by zero";
 		}
 		if (message != null) {
 			throw new IllegalArgumentException(message);
